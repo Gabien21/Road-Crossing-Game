@@ -50,10 +50,10 @@ public:
 	{
 		if (pos.x == 162)
 		{
-			handle.eraseGraphic(pos.x-1, pos.y, getHeight(), getLength() + 1,240, 32, 162);
+			handle.eraseGraphic(pos.x-1, pos.y, getHeight(), getLength() + 1,0, 32, 162);
 			return;
 		}
-		handle.eraseGraphic(pos.x-1, pos.y, getHeight(), 1,240, 33, 162);
+		handle.eraseGraphic(pos.x-1, pos.y, getHeight(), 1,0, 33, 162);
 	}
 	virtual void Tell() = 0;
 	virtual int getLength() const = 0;
@@ -100,7 +100,7 @@ public:
 	}
 	void drawCar(ConsoleHandle& handle)
 	{
-		handle.updateObstacle(pos.x, pos.y, "CarTexture.txt", 241, 33, 162);
+		handle.updateObstacle(pos.x, pos.y, "CarTexture.txt", 1, 33, 162);
 	}
 	vector<Point> getPointList() const
 	{
@@ -177,7 +177,7 @@ public:
 	}
 	void drawTruck(ConsoleHandle& handle)
 	{
-		handle.updateObstacle(pos.x, pos.y, "TruckTexture.txt", 242,33, 162);
+		handle.updateObstacle(pos.x, pos.y, "TruckTexture.txt", 2,33, 162);
 	}
 	vector<Point> getPointList() const
 	{

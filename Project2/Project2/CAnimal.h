@@ -48,10 +48,10 @@ public:
 	{
 		if (pos.x == 20)
 		{
-			handle.eraseGraphic(pos.x, pos.y, getHeight(), getLength() + 1,240,33, 162);
+			handle.eraseGraphic(pos.x, pos.y, getHeight(), getLength() + 1,0,33, 162);
 			return;
 		}
-		handle.eraseGraphic(pos.x + getLength(), pos.y, getHeight(), 1,240,33, 162);
+		handle.eraseGraphic(pos.x + getLength(), pos.y, getHeight(), 1,0,33, 162);
 	}
 	virtual void Tell() = 0;
 	virtual int getLength() const = 0;
@@ -95,7 +95,7 @@ public:
 	}
 	void drawBird(ConsoleHandle& handle)
 	{
-		handle.updateObstacle(pos.x, pos.y, "BirdTexture.txt",246,33, 162);
+		handle.updateObstacle(pos.x, pos.y, "BirdTexture.txt",6,33, 162);
 	}
 	vector<Point> getPointList() const
 	{
@@ -172,7 +172,7 @@ public:
 	}
 	void drawDinausor(ConsoleHandle& handle)
 	{
-		handle.updateObstacle(pos.x, pos.y, "DinausorTexture.txt", 245, 33, 162);
+		handle.updateObstacle(pos.x, pos.y, "DinausorTexture.txt", 5, 33, 162);
 	}
 	vector<Point> getPointList() const
 	{

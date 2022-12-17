@@ -42,6 +42,7 @@ private:
     int stage;
     bool sound;
     int live;
+    int color;
     string userName;
     string passWord;
 public:
@@ -52,6 +53,7 @@ public:
         stage = 1;
         live = 3;
         sound = true;
+        color = WHITE;
         userName = passWord = "";
     }
     ~CGame()
@@ -258,6 +260,7 @@ public:
     {
         userName = passWord = "";
         difficulty = 100;
+        color = WHITE;
         live = 3;
         stage = 1;
         carList.clear();

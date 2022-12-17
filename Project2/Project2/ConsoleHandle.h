@@ -16,6 +16,13 @@ using namespace std;
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
+#define DARK 0
+#define WHITE 240
+
+int COLOR = DARK;
+int at = (COLOR == WHITE) ? 0 : 15;
+
+
 typedef pair<string, int> si;
 
 CHAR_INFO consoleBuffer[consoleWidth * consoleHeight];
@@ -83,7 +90,7 @@ public:
         GetWindowRect(console, &r);
         MoveWindow(console, r.left, r.top, width, height, true);
     }
-    void drawGraphic(int mX, int mY, string graphicFile, int atribute = 240) {
+    void drawGraphic(int mX, int mY, string graphicFile, int attribute = at) {
         ifstream op;
         op.open(graphicFile);
         vector<string> line;
@@ -95,29 +102,29 @@ public:
             for (int x = 0; x < line[y].size(); ++x)
             {
                 consoleBuffer[mX + x + consoleWidth * (mY + y)].Char.AsciiChar = line[y][x];
-                consoleBuffer[mX + x + consoleWidth * (mY + y)].Attributes = atribute;
+                consoleBuffer[mX + x + consoleWidth * (mY + y)].Attributes = COLOR + attribute;
             }
         }
         WriteConsoleOutputA(wHnd, consoleBuffer, characterBufferSize, characterPosition, &consoleWriteArea);
         op.close();
     }
-    void drawString(int mX, int mY, string s, int atribute = 240) {
+    void drawString(int mX, int mY, string s, int attribute = at) {
         for (int x = 0; x < s.length(); ++x)
         {
             consoleBuffer[mX + x + consoleWidth * (mY)].Char.AsciiChar = s[x];
-            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = atribute;
+            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = COLOR + attribute;
         }
         WriteConsoleOutputA(wHnd, consoleBuffer, characterBufferSize, characterPosition, &consoleWriteArea);
     }
-    void eraseString(int mX, int mY, int n, int atribute = 240)
+    void eraseString(int mX, int mY, int n, int attribute = at)
     {
         for (int x = 0; x < n; ++x)
         {
             consoleBuffer[mX + x + consoleWidth * (mY)].Char.AsciiChar = ' ';
-            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = atribute;
+            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = COLOR + attribute;
         }
     }
-    void eraseGraphic(int mX, int mY, int a, int b, int atribute = 240,int c = 0, int d = consoleWidth) {
+    void eraseGraphic(int mX, int mY, int a, int b, int attribute = at,int c = 0, int d = consoleWidth) {
         for (int y = 0; y < a; ++y)
         {
             for (int x = 0; x < b; ++x)
@@ -125,12 +132,12 @@ public:
                 if (mX + x >= c && mX + x <= d)
                 {
                     consoleBuffer[mX + x + consoleWidth * (mY + y)].Char.AsciiChar = ' ';
-                    consoleBuffer[mX + x + consoleWidth * (mY + y)].Attributes = 240;
+                    consoleBuffer[mX + x + consoleWidth * (mY + y)].Attributes = attribute + COLOR;
                 }
             }
         }
     }
-    void updateObstacle(int mX, int mY, string graphicFile, int atribute = 240, int a = 0, int b = consoleWidth) {
+    void updateObstacle(int mX, int mY, string graphicFile, int attribute = at, int a = 0, int b = consoleWidth) {
         ifstream op;
         op.open(graphicFile);
         vector<string> line;
@@ -144,17 +151,17 @@ public:
                 if (mX+x>=a && mX + x <= b)
                 {
                     consoleBuffer[mX + x + consoleWidth * (mY + y)].Char.AsciiChar = line[y][x];
-                    consoleBuffer[mX + x + consoleWidth * (mY + y)].Attributes = atribute;
+                    consoleBuffer[mX + x + consoleWidth * (mY + y)].Attributes = attribute + COLOR;
                 }
             }
         }
         op.close();
     }
-    void updateString(int mX, int mY, string s, int atribute) {
+    void updateString(int mX, int mY, string s, int attribute = at) {
         for (int x = 0; x < s.length(); ++x)
         {
             consoleBuffer[mX + x + consoleWidth * (mY)].Char.AsciiChar = s[x];
-            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = atribute;
+            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = attribute + COLOR;
         }
     }
     void draw()
@@ -168,12 +175,12 @@ public:
             for (int x = 0; x < consoleWidth; ++x)
             {
                 consoleBuffer[x + consoleWidth * y].Char.AsciiChar = ' ';
-                consoleBuffer[x + consoleWidth * y].Attributes = 240;
+                consoleBuffer[x + consoleWidth * y].Attributes = COLOR;
             }
         }
     }
     void drawTitle() {
-        updateObstacle(getCenterX(152), 0, "GameTitle0.txt", 240);
+        updateObstacle(getCenterX(152), 0, "GameTitle0.txt");
     }
     void eraseTitle()
     {
@@ -371,7 +378,7 @@ public:
         for (int i = 0; i < 2*n-1; i+=2)
         {
             consoleBuffer[mX + i + consoleWidth * (mY)].Char.AsciiChar = (char)3;
-            consoleBuffer[mX + i + consoleWidth * (mY)].Attributes = 244;
+            consoleBuffer[mX + i + consoleWidth * (mY)].Attributes = COLOR + 12;
         }
     }
     void eraseHeart()
@@ -383,7 +390,7 @@ public:
         for (int i = 0; i < 2 * n - 1; i++)
         {
             consoleBuffer[mX + i + consoleWidth * (mY)].Char.AsciiChar = ' ';
-            consoleBuffer[mX + i + consoleWidth * (mY)].Attributes = 240;
+            consoleBuffer[mX + i + consoleWidth * (mY)].Attributes = COLOR;
         }
     }
     void drawNotAlive()
