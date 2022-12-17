@@ -1,0 +1,7 @@
+     *==========================*
+     |        SETTING           |
+     |**************************|
+     |        => SOUND ON       |
+     |        SOUND OFF         |
+     *==========================* 
+ PRESS "B" TO GO BACK TO THE MAIN MENU

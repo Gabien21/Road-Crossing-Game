@@ -1,0 +1,8 @@
+*=================*
+|    This name    |
+|   is not exit   |
+|    in player    |
+|      list!      |
+|_________________|
+|Press 'B' to back|
+*=================*
