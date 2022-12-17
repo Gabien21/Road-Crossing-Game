@@ -19,7 +19,7 @@ using namespace std;
 #define DARK 0
 #define WHITE 240
 
-int COLOR = DARK;
+int COLOR = WHITE;
 int at = (COLOR == WHITE) ? 0 : 15;
 
 
@@ -112,7 +112,7 @@ public:
         for (int x = 0; x < s.length(); ++x)
         {
             consoleBuffer[mX + x + consoleWidth * (mY)].Char.AsciiChar = s[x];
-            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = COLOR + attribute;
+            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = (attribute > 15)? attribute:COLOR + attribute;
         }
         WriteConsoleOutputA(wHnd, consoleBuffer, characterBufferSize, characterPosition, &consoleWriteArea);
     }
@@ -161,7 +161,7 @@ public:
         for (int x = 0; x < s.length(); ++x)
         {
             consoleBuffer[mX + x + consoleWidth * (mY)].Char.AsciiChar = s[x];
-            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = attribute + COLOR;
+            consoleBuffer[mX + x + consoleWidth * (mY)].Attributes = (attribute > 15) ? attribute : COLOR + attribute;
         }
     }
     void draw()
@@ -257,7 +257,8 @@ public:
         while (!fin.eof())
         {
             si tmp;
-            fin >> tmp.first >> tmp.second;
+            fin >> tmp.first;
+            fin >> tmp.second;
             playerList.push_back(tmp);
         }
         playerList.pop_back();
@@ -284,6 +285,26 @@ public:
         eraseTitle();
         eraseGraphic(getCenterX(38), getCenterY(7, 14), 7, 38);
     }
+    void drawSettingSoundMenu(string settingMenuFileName) {
+        clear();
+        drawTitle();
+        drawGraphic(getCenterX(38), getCenterY(7, 14), settingMenuFileName);
+    }
+    void eraseSettingSoundMenu()
+    {
+        eraseTitle();
+        eraseGraphic(getCenterX(38), getCenterY(7, 14), 7, 42);
+    }
+    void drawSettingBackGroundMenu(string settingMenuFileName) {
+        clear();
+        drawTitle();
+        drawGraphic(getCenterX(38), getCenterY(7, 14), settingMenuFileName);
+    }
+    void eraseSettingBackGroundMenu()
+    {
+        eraseTitle();
+        eraseGraphic(getCenterX(38), getCenterY(7, 14), 7, 42);
+    }
     void drawNameNotExit()
     {
         clear();
@@ -291,7 +312,7 @@ public:
         drawGraphic(getCenterX(19), getCenterY(8, 14), "NameNotExit.txt");
         while (1) {
             char c = _getch();
-            if (c == 'b')
+            if (c == 'b' || c == 'B')
                 return;
         }
     }
@@ -305,7 +326,7 @@ public:
         drawGraphic(getCenterX(53), getCenterY(11, 14), "About.txt");
         while (1) {
             char c = _getch();
-            if (c == 'b')
+            if (c == 'b' || c == 'B')
             {
                 clear();
                 return;
@@ -341,7 +362,7 @@ public:
         drawGraphic(getCenterX(37), getCenterY(4, 14), "SaveData.txt");
         while (1) {
             char c = _getch();
-            if (c == 'b')
+            if (c == 'b' || c == 'B')
             {
                 clear();
                 return;
@@ -400,7 +421,7 @@ public:
         drawGraphic(getCenterX(38), getCenterY(11, 14), "NotAlive.txt");
         while (1) {
             char c = _getch();
-            if (c == 'b')
+            if (c == 'b' || c == 'B')
             {
                 clear();
                 return;

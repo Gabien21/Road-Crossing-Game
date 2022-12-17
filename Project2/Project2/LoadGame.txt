@@ -1,5 +1,4 @@
-toan 5
-tien 3
-thao 3
-phong 4
-aaaa 4
+toan 10
+tien 5
+thao 2
+phong 5

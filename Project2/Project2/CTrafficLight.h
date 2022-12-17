@@ -53,12 +53,12 @@ public:
 		if (type == "Light-1.txt")
 		{
 			handle.updateObstacle(pos.x, pos.y, type);
-			handle.updateString(pos.x + 1, pos.y + 1, "___", 10);
+			handle.updateString(pos.x + 1, pos.y + 1, "___", 32);
 		}
 		else if (type == "Light-2.txt")
 		{
 			handle.updateObstacle(pos.x, pos.y, type);
-			handle.updateString(pos.x + 1, pos.y + 2, "___", 12);
+			handle.updateString(pos.x + 1, pos.y + 2, "___", 64);
 		}
 	}
 	void changeType(ConsoleHandle& handle)

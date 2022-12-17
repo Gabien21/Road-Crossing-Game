@@ -132,6 +132,15 @@
     <Text Include="HumanTextureDeath-02.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="SetSound.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SetBackGround.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="LoadGame.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAnimal.h">

@@ -261,6 +261,8 @@ public:
         userName = passWord = "";
         difficulty = 100;
         color = WHITE;
+        COLOR = color;
+        at = (COLOR == WHITE) ? 0 : 15;
         live = 3;
         stage = 1;
         carList.clear();
@@ -335,10 +337,12 @@ public:
                     handle.drawTitle();
                     handle.drawMenu(fileName);
                     clearAllData();
+
                 }
                 else if (line == 3) //setting
                 {
                     settingMenu(handle);
+                    handle.drawTitle();
                     handle.drawMenu(fileName);
                 }
                 else if (line == 4) {   //about
@@ -516,6 +520,99 @@ public:
         handle.eraseLoadGameMenu(playerList);
         return "NULL" + fileData;
     }
+
+    void SetSound(ConsoleHandle& handle)
+    {
+        int line = 1;
+        string fileName = "SetSound.txt";
+        handle.drawSettingSoundMenu(fileName);
+        string s = (sound == 1) ? "ON" : "OFF";
+        handle.drawString(ConsoleHandle::getCenterX(38) + 35, ConsoleHandle::getCenterY(7, 14) + 3, s,2);
+        bool isInPauseMenu = true;
+        int c = 0;
+        while (isInPauseMenu) {
+            c = 0;
+            if ((c = _getch()))
+            {
+                if (c == KEY_UP)
+                {
+                    line--;
+                    if (line == 0) line = 1;
+                    s = (sound == 1) ? "ON" : "OFF";
+                    handle.eraseString(ConsoleHandle::getCenterX(38) + 35, ConsoleHandle::getCenterY(7, 14) + 3, 3);
+                    handle.drawString(ConsoleHandle::getCenterX(38)+35, ConsoleHandle::getCenterY(7, 14)+3,s,2 );
+                }
+                else if (c == KEY_DOWN)
+                {
+                    line++;
+                    if (line == 3) line = 2;
+                    s = (sound == 0) ? "ON" : "OFF";
+                    handle.eraseString(ConsoleHandle::getCenterX(38) + 35, ConsoleHandle::getCenterY(7, 14) + 3, 3);
+                    handle.drawString(ConsoleHandle::getCenterX(38)+35, ConsoleHandle::getCenterY(7, 14)+3, s,4);
+                }
+                else if (c == 'b' || c == 'B')
+                {
+                    handle.eraseSettingSoundMenu();
+                    return;
+                }
+                else if (c == 13)
+                {
+                    if (line == 2) {
+                        isInPauseMenu = false;
+                        sound = !sound;
+                    }
+                    handle.eraseSettingSoundMenu();
+                }
+            }
+        }
+    }
+    void SetBackGround(ConsoleHandle& handle)
+    {
+        int line = 1;
+        string fileName = "SetSound.txt";
+        handle.drawSettingBackGroundMenu(fileName);
+        string s = (color == WHITE) ? "WHITE" : "BLACK";
+        handle.drawString(ConsoleHandle::getCenterX(38) + 34, ConsoleHandle::getCenterY(7, 14) + 3, s, 2);
+        bool isInPauseMenu = true;
+        int c = 0;
+        while (isInPauseMenu) {
+            c = 0;
+            if ((c = _getch()))
+            {
+                if (c == KEY_UP)
+                {
+                    line--;
+                    if (line == 0) line = 1;
+                    s = (color == WHITE) ? "WHITE" : "BLACK";
+                    handle.eraseString(ConsoleHandle::getCenterX(38) + 34, ConsoleHandle::getCenterY(7, 14) + 3, 5);
+                    handle.drawString(ConsoleHandle::getCenterX(38) + 34, ConsoleHandle::getCenterY(7, 14) + 3, s, 2);
+                }
+                else if (c == KEY_DOWN)
+                {
+                    line++;
+                    if (line == 3) line = 2;
+                    s = (color != WHITE) ? "WHITE" : "BLACK";
+                    handle.eraseString(ConsoleHandle::getCenterX(38) + 34, ConsoleHandle::getCenterY(7, 14) + 3, 5);
+                    handle.drawString(ConsoleHandle::getCenterX(38) + 34, ConsoleHandle::getCenterY(7, 14) + 3, s, 4);
+                }
+                else if (c == 'b' || c == 'B')
+                {
+                    handle.eraseSettingSoundMenu();
+                    return;
+                }
+                else if (c == 13)
+                {
+                    if (line == 2) {
+                        isInPauseMenu = false;
+                        color = (color == WHITE) ? DARK : WHITE;
+                        COLOR = color;
+                        at = (COLOR == WHITE) ? 0 : 15;
+                    }
+                    handle.eraseSettingSoundMenu();
+                }
+            }
+        }
+    }
     void settingMenu(ConsoleHandle& handle)
     {
         int line = 1;
@@ -527,39 +624,41 @@ public:
         int c = 0;
         while (isInPauseMenu) {
             c = 0;
-            switch ((c = _getch())) {
-            case KEY_UP:
-                line--;
-                if (line == 0) line = 1;
-                fileName = fileNamePrefix + char(line + 48) + fileNameSuffix;
-                handle.drawSettingMenu(fileName);
-                break;
-            case KEY_DOWN:
-                line++;
-                if (line == 3) line = 2;
-                fileName = fileNamePrefix + char(line + 48) + fileNameSuffix;
-                handle.drawSettingMenu(fileName);
-                break;
-            case 'b':
-                return;
-            case VK_RETURN:
-                if (line == 1) {
-                    isInPauseMenu = false;
-                    sound = true;
-                    handle.eraseSettingMenu();
+            if ((c = _getch()))
+            {
+                if (c == KEY_UP)
+                {
+                    line--;
+                    if (line == 0) line = 1;
+                    fileName = fileNamePrefix + char(line + 48) + fileNameSuffix;
+                    handle.drawSettingMenu(fileName);
+                }
+                else if (c == KEY_DOWN)
+                {
+                    line++;
+                    if (line == 3) line = 2;
+                    fileName = fileNamePrefix + char(line + 48) + fileNameSuffix;
+                    handle.drawSettingMenu(fileName);
+                }
+                else if (c == 'b' || c == 'B')
+                {
                     return;
                 }
-                if (line == 2) {
-                    isInPauseMenu = false;
-                    sound = false;
-                    handle.eraseSettingMenu();
-                    return;
+                else if (c == 13)
+                {
+                    if (line == 1) {
+                        SetSound(handle);
+                        handle.drawSettingMenu(fileName);
+                    }
+                    else if (line == 2) {
+                        SetBackGround(handle);
+                        handle.drawSettingMenu(fileName);
+                    }
                 }
-            default:
-                break;
             }
         }
     }
+    
     int failGame(ConsoleHandle& handle) {
         int line = 1;
         string fileNamePrefix = "FailGame-";
@@ -687,78 +786,7 @@ public:
             handle.eraseSaveGamePanel();
         }
     }
-    //void readData(string dataFile) {
-    //    ifstream fi;
-    //    fi.open(dataFile);
-    //    string buffer;
-    //    int n, posX, posY;
-    //    //Car;
-    //    fi >> buffer;
-    //    fi >> n;
-    //    for (int i = 0; i < n; i++) {
-    //        fi >> posX >> posY;
-    //        addCar(posX, posY);
-    //    }
-    //    //Truck;
-    //    fi >> buffer;
-    //    fi >> n;
-    //    for (int i = 0; i < n; i++) {
-    //        fi >> posX >> posY;
-    //        addTruck(posX, posY);
-    //    }
-    //    //Bird;
-    //    fi >> buffer;
-    //    fi >> n;
-    //    for (int i = 0; i < n; i++) {
-    //        fi >> posX >> posY;
-    //        addBird(posX, posY);
-    //    }
-    //    //Dinausor;
-    //    fi >> buffer;
-    //    fi >> n;
-    //    for (int i = 0; i < n; i++) {
-    //        fi >> posX >> posY;
-    //        addDinausor(posX, posY);
-    //    }
-    //    //TrafficLight
-    //    fi >> buffer;
-    //    fi >> n;
-    //    int currentTime, time, type;
-    //    for (int i = 0; i < n; i++) {
-    //        fi >> posX >> posY;
-    //        TrafficLight newLight(posX, posY);
-    //        fi >> currentTime >> time >> type;
-    //        newLight.setTime(currentTime, time);
-    //        newLight.setType(type);
-    //        addTrafficLight(newLight);
-    //    }
-    //    //Human
-    //    fi >> buffer;
-    //    fi >> posX >> posY;
-    //    people->setPos(posX, posY);
-
-    //    //Stage;
-    //    fi >> buffer;
-    //    fi >> stage;
-
-    //    //Difficulty
-    //    fi >> buffer;
-    //    fi >> difficulty;
-
-    //    //live
-    //    fi >> buffer;
-    //    fi >> live;
-
-    //    //userName
-    //    fi >> buffer;
-    //    fi >> userName;
-
-    //    //password
-    //    fi >> buffer;
-    //    fi >> passWord;
-
-    //    fi.close();
-    //}
+    
     void readData(string dataFile) {
         ifstream fi;
         fi.open(dataFile,ios::in|ios::binary);
@@ -847,101 +875,7 @@ public:
 
         fi.close();
     }
-    /*void saveGame(ConsoleHandle& handle, int k = 0) {
-        string fileName = userName;
-        ofstream fo;
-        if (k != 1)
-        {
-            fo.open("LoadGame.txt", ios::app);
-            fo << fileName << " " << stage << endl;
-            fo.close();
-        }
-        else
-        {
-            fstream file;
-            file.open("LoadGame.txt", ios::in | ios::out);
-            if (file)
-            {
-                while (!file.eof())
-                {
-                    string tmp1;
-                    int tmp2;
-                    file >> tmp1;
-                    int p = 0;
-                    p = file.tellp();
-                    if (tmp1.compare(fileName) == 0)
-                    {
-                        p++;
-                        file.seekp(p);
-                        file << stage;
-                        break;
-                    }
-                    file >> tmp2;
-                }
-            }
-        }
-        fileName += ".txt";
-        fo.open(fileName);
-
-        fo << "//Car//" << '\n';
-        fo << carList.size() << '\n';
-        for (int i = 0; i < carList.size(); i++) {
-            Point cord = carList[i].getPos();
-            fo << cord.x << char(32) << cord.y << '\n';
-        }
-
-        fo << "//Truck//" << '\n';
-        fo << truckList.size() << '\n';
-        for (int i = 0; i < truckList.size(); i++) {
-            Point cord = truckList[i].getPos();
-            fo << cord.x << char(32) << cord.y << '\n';
-        }
-
-        fo << "//Bird//" << '\n';
-        fo << birdList.size() << '\n';
-        for (int i = 0; i < birdList.size(); i++) {
-            Point cord = birdList[i].getPos();
-            fo << cord.x << char(32) << cord.y << '\n';
-        }
-
-        fo << "//Dinausor//" << '\n';
-        fo << dinausorList.size() << '\n';
-        for (int i = 0; i < dinausorList.size(); i++) {
-            Point cord = dinausorList[i].getPos();
-            fo << cord.x << char(32) << cord.y << '\n';
-        }
-
-        fo << "//TrafficLight//" << '\n';
-        fo << lightList.size() << '\n';
-        for (int i = 0; i < lightList.size(); i++) {
-            fo << lightList[i].getPos().x << char(32) << lightList[i].getPos().y << char(32) << lightList[i].getCurrentTime() << char(32) << lightList[i].getTime();
-            if (lightList[i].getStatus().compare("Light-2.txt") == 0)
-                fo << " 2" << endl;
-            else
-                fo << " 1" << endl;
-        }
-
-        fo << "//Human//" << '\n';
-        Point cord = people->getPos();
-        fo << cord.x << char(32) << cord.y << '\n';
-
-        fo << "//stage//" << '\n';
-        fo << stage << '\n';
-
-        fo << "//difficuly//" << '\n';
-        fo << difficulty << '\n';
-
-        fo << "//live//" << '\n';
-        fo << live << '\n';
-
-        fo << "//username//" << '\n';
-        fo << userName << '\n';
-
-        fo << "//password//" << '\n';
-        fo << passWord << '\n';
-
-        fo.close();
-    }*/
+    
     void saveGame(ConsoleHandle& handle, int k = 0) {
         string fileName = userName;
         ofstream fo;

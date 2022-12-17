@@ -142,6 +142,7 @@
     <Text Include="HumanTextureDeath-02.txt" />
     <Text Include="Light-1.txt" />
     <Text Include="Light-2.txt" />
+    <Text Include="LoadGame.txt" />
     <Text Include="LoadGameMenu-2.txt" />
     <Text Include="LoadGameMenu.txt" />
     <Text Include="Menu-1.txt" />
@@ -160,6 +161,8 @@
     <Text Include="PauseMenu-4.txt" />
     <Text Include="SaveData.txt" />
     <Text Include="SaveGamePanel.txt" />
+    <Text Include="SetBackGround.txt" />
+    <Text Include="SetSound.txt" />
     <Text Include="Setting-1.txt" />
     <Text Include="Setting-2.txt" />
     <Text Include="GameMap2.txt" />
