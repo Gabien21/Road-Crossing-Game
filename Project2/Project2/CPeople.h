@@ -4,6 +4,7 @@
 #include "Point.h"
 #include "CAnimal.h"
 #include<vector>
+
 class CPeople
 {
 private:
@@ -45,25 +46,21 @@ public:
 		if (this->pos.y == 1)
 			return;
 		this->pos.y--;
-		//tell();
 	}
 	void Down() {
 		if (this->pos.y == 43)
 			return;
 		this->pos.y++;
-		//tell();
 	}
 	void Left() {
 		if (this->pos.x == 33)
 			return;
 		this->pos.x--;
-		//tell();
 	}
 	void Right() {
 		if (this->pos.x == 160)
 			return;
 		this->pos.x++;
-		//tell();
 	}
 	bool isImpact(const vector<CCar>& obj)
 	{
@@ -205,9 +202,5 @@ public:
 		}
 		Sleep(1000);
 		handle.eraseGraphic(pos.x, pos.y, 5, 9);
-	}
-	void tell()
-	{
-		PlaySound(TEXT("sound/moving.wav"), NULL, SND_FILENAME);
 	}
 };

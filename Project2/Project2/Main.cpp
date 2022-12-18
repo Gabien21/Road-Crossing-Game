@@ -2,9 +2,6 @@
 
 ConsoleHandle handle;
 CGame *cg;
-char MOVING;
-
-
 
 int main()
 {	

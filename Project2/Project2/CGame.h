@@ -14,13 +14,36 @@
 #include "Point.h"
 #include <utility>
 #include<thread>
+#include <mciapi.h>
 using namespace std;
 #pragma comment(lib, "winmm.lib")
 
+int SOUND = 1;
 void playDeathSound() {
-    PlaySound(TEXT("sound/human_die.wav"), NULL, SND_FILENAME);
+    mciSendString(TEXT("open \"sound/human_die.mp3\" type mpegvideo alias mp3"), NULL, 0, NULL);
+    mciSendString(TEXT("play mp3"), NULL, 0, NULL);
 }
 
+void playFinishSound() {
+
+    mciSendString(TEXT("open \"sound/finish.mp3\" type mpegvideo alias mp3"), NULL, 0, NULL);
+    mciSendString(TEXT("play mp3"), NULL, 0, NULL);
+}
+
+void playEndGameSound() {
+    mciSendString(TEXT("open \"sound/endGame.mp3\" type mpegvideo alias mp3"), NULL, 0, NULL);
+    mciSendString(TEXT("play mp3"), NULL, 0, NULL);
+}
+
+
+void playMusic() {
+    PlaySound(TEXT("sound/MenuMusic.wav"), NULL, SND_ASYNC | SND_LOOP);
+}
+
+void StopPlaySound()
+{
+    PlaySound(0,0,0);
+}
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -49,7 +72,7 @@ public:
     CGame()
     {
         this->people = new CPeople(94, 43);
-        difficulty = 105;
+        difficulty = 125;
         stage = 1;
         live = 3;
         sound = true;
@@ -259,7 +282,7 @@ public:
     void clearAllData()
     {
         userName = passWord = "";
-        difficulty = 100;
+        difficulty = 125;
         color = WHITE;
         COLOR = color;
         at = (COLOR == WHITE) ? 0 : 15;
@@ -295,6 +318,11 @@ public:
     void gameMenu(ConsoleHandle& handle) {
         string fileData = "NewGameData.dat";
         int line = 1;
+        if (sound == 1)
+        {
+            thread t1(playMusic);
+            t1.join();
+        }
         string fileNamePrefix = "Menu-";
         string fileNameSuffix = ".txt";
         string fileName = "Menu-1.txt";
@@ -440,7 +468,7 @@ public:
             }
             handle.drawHeart(live);
             handle.drawStage(stage);
-            handle.drawString(18, 21, to_string(5 - difficulty / 25));
+            handle.drawString(18, 21, to_string(/*5 -*/ difficulty/* / 25*/));
             drawAllMovingObject(handle);
             moveAllObject(handle);
             Sleep(difficulty);
@@ -453,6 +481,8 @@ public:
                 drawAllMovingObject(handle);
                 if (live == 0)
                 {
+                    thread tmp(playEndGameSound);
+                    tmp.join();
                     endGame(handle, name);
                     return;
                 }
@@ -469,16 +499,78 @@ public:
                 handle.eraseHeart();
             }
             if (people->isFinish()) {
+                thread t(playFinishSound);
+                t.join();
+                
                 people->erasePeople(handle);
                 people->setPos(94, 43);
-                if (difficulty > 5)
+                if (difficulty > 25)
                     difficulty -= 25;
                 else
-                    difficulty = 105;
+                    difficulty = 125;
                 stage++;
             }
         }
     }
+
+    int failGame(ConsoleHandle& handle) {
+        int line = 1;
+        string fileNamePrefix = "FailGame-";
+        string fileNameSuffix = ".txt";
+        string fileName = "FailGame-1.txt";
+        handle.drawFailGameMenu(fileName);
+        bool isInFailGameMenu = true;
+        int c = 0;
+        while (isInFailGameMenu) {
+            c = 0;
+            switch ((c = _getch())) {
+            case KEY_UP:
+                line--;
+                if (line == 0) line = 1;
+                fileName = fileNamePrefix + char(line + 48) + fileNameSuffix;
+                handle.drawFailGameMenu(fileName);
+                break;
+            case KEY_DOWN:
+                line++;
+                if (line == 5) line = 4;
+                fileName = fileNamePrefix + char(line + 48) + fileNameSuffix;
+                handle.drawFailGameMenu(fileName);
+                break;
+            case VK_RETURN:
+                if (line == 1) {    //resume
+                    isInFailGameMenu = false;
+                    handle.eraseFailGameMenu();
+                    people->erasePeople(handle);
+                    people->setPos(94, 43);
+                    return 1;
+                }
+                if (line == 2) {    //save game
+                    handle.eraseFailGameMenu();
+                    saveGamePanel(handle);
+                    handle.eraseSaveGamePanel();
+                    handle.DrawGameMap();
+                    drawAllMovingObject(handle);
+                    handle.drawFailGameMenu(fileName);
+                }
+                if (line == 3)  //setting
+                {
+                    settingMenu(handle);
+                    handle.eraseSettingMenu();
+                    handle.DrawGameMap();
+                    drawAllMovingObject(handle);
+                    handle.drawFailGameMenu(fileName);
+                }
+                if (line == 4) {    //exit
+                    isInFailGameMenu = false;
+                    return 4;
+                }
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    
     string loadGame(ConsoleHandle& handle)
     {
         vector<si> playerList = handle.drawLoadGameMenu("LoadGameMenu.txt");
@@ -559,6 +651,16 @@ public:
                 {
                     if (line == 2) {
                         isInPauseMenu = false;
+                        if (sound == 1)
+                        {
+                            thread t(StopPlaySound);
+                            t.join();
+                        }
+                        else
+                        {
+                            thread t(playMusic);
+                            t.join();
+                        }
                         sound = !sound;
                     }
                     handle.eraseSettingSoundMenu();
@@ -659,63 +761,7 @@ public:
         }
     }
     
-    int failGame(ConsoleHandle& handle) {
-        int line = 1;
-        string fileNamePrefix = "FailGame-";
-        string fileNameSuffix = ".txt";
-        string fileName = "FailGame-1.txt";
-        handle.drawFailGameMenu(fileName);
-        bool isInFailGameMenu = true;
-        int c = 0;
-        while (isInFailGameMenu) {
-            c = 0;
-            switch ((c = _getch())) {
-            case KEY_UP:
-                line--;
-                if (line == 0) line = 1;
-                fileName = fileNamePrefix + char(line + 48) + fileNameSuffix;
-                handle.drawFailGameMenu(fileName);
-                break;
-            case KEY_DOWN:
-                line++;
-                if (line == 5) line = 4;
-                fileName = fileNamePrefix + char(line + 48) + fileNameSuffix;
-                handle.drawFailGameMenu(fileName);
-                break;
-            case VK_RETURN:
-                if (line == 1) {    //resume
-                    isInFailGameMenu = false;
-                    handle.eraseFailGameMenu();
-                    people->erasePeople(handle);
-                    people->setPos(94, 43);
-                    return 1;
-                }
-                if (line == 2) {    //save game
-                    handle.eraseFailGameMenu();
-                    saveGamePanel(handle);
-                    handle.eraseSaveGamePanel();
-                    handle.DrawGameMap();
-                    drawAllMovingObject(handle);
-                    handle.drawFailGameMenu(fileName);
-                }
-                if (line == 3)  //setting
-                {
-                    settingMenu(handle);
-                    handle.eraseSettingMenu();
-                    handle.DrawGameMap();
-                    drawAllMovingObject(handle);
-                    handle.drawFailGameMenu(fileName);
-                }
-                if (line == 4) {    //exit
-                    isInFailGameMenu = false;
-                    return 4;
-                }
-                break;
-            default:
-                break;
-            }
-        }
-    }
+    
     int pauseGamePanel(ConsoleHandle& handle) {
         int line = 1;
         string fileNamePrefix = "PauseMenu-";
