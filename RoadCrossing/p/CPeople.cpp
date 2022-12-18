@@ -1,0 +1,193 @@
+#include "CPeople.h"
+
+CPeople::CPeople()
+{
+	mState = true;
+	pos.x = 0;
+	pos.y = 0;
+	length = 3;
+	this->mState = true;
+}
+CPeople::CPeople(int x, int y)
+{
+	mState = true;
+	pos.x = x;
+	pos.y = y;
+	length = 3;
+	this->mState = true;
+}
+void CPeople::setState(bool s)
+{
+	this->mState = true;
+}
+Point CPeople::getPos()
+{
+	return pos;
+}
+void CPeople::setPos(int x, int y)
+{
+	this->pos.x = x;
+	this->pos.y = y;
+}
+void CPeople::Up()
+{
+	if (this->pos.y == 1)
+		return;
+	this->pos.y--;
+}
+void CPeople::Down() {
+	if (this->pos.y == 43)
+		return;
+	this->pos.y++;
+}
+void CPeople::Left() {
+	if (this->pos.x == 33)
+		return;
+	this->pos.x--;
+}
+void CPeople::Right() {
+	if (this->pos.x == 160)
+		return;
+	this->pos.x++;
+}
+bool CPeople::isImpact(const vector<CCar>& obj)
+{
+	vector<Point> y = getPoint();
+	vector<Point> x = obj[0].getPointList();
+	for (int k = 0; k < obj.size(); k++)
+	{
+		Point a = obj[k].getPos();
+		for (int i = 0; i < y.size(); i++)
+		{
+			Point tmp1(y[i].x + pos.x, y[i].y + pos.y);
+			for (int j = 0; j < x.size(); j++)
+			{
+				Point tmp2(x[j].x + a.x, x[j].y + a.y);
+				if (tmp2.x == tmp1.x && tmp2.y == tmp1.y)
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+bool CPeople::isImpact(const vector<CTruck>& obj)
+{
+	vector<Point> y = getPoint();
+	vector<Point> x = obj[0].getPointList();
+	for (int k = 0; k < obj.size(); k++)
+	{
+		Point a = obj[k].getPos();
+		for (int i = 0; i < y.size(); i++)
+		{
+			Point tmp1(y[i].x + pos.x, y[i].y + pos.y);
+			for (int j = 0; j < x.size(); j++)
+			{
+				Point tmp2(x[j].x + a.x, x[j].y + a.y);
+				if (tmp2.x == tmp1.x && tmp2.y == tmp1.y)
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+bool CPeople::isImpact(const vector<CBird>& obj)
+{
+	vector<Point> y = getPoint();
+	vector<Point> x = obj[0].getPointList();
+	for (int k = 0; k < obj.size(); k++)
+	{
+		Point a = obj[k].getPos();
+		for (int i = 0; i < y.size(); i++)
+		{
+			Point tmp1(y[i].x + pos.x, y[i].y + pos.y);
+			for (int j = 0; j < x.size(); j++)
+			{
+				Point tmp2(x[j].x + a.x, x[j].y + a.y);
+				if (tmp2.x == tmp1.x && tmp2.y == tmp1.y)
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+bool CPeople::isImpact(const vector<CDinausor>& obj)
+{
+	vector<Point> y = getPoint();
+	vector<Point> x = obj[0].getPointList();
+	for (int k = 0; k < obj.size(); k++)
+	{
+		Point a = obj[k].getPos();
+		for (int i = 0; i < y.size(); i++)
+		{
+			Point tmp1(y[i].x + pos.x, y[i].y + pos.y);
+			for (int j = 0; j < x.size(); j++)
+			{
+				Point tmp2(x[j].x + a.x, x[j].y + a.y);
+				if (tmp2.x == tmp1.x && tmp2.y == tmp1.y)
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+
+
+bool CPeople::isFinish()
+{
+	return pos.y == 2;
+}
+bool CPeople::isDead()
+{
+	return mState == 0;
+}
+void CPeople::draw(ConsoleHandle& handle)
+{
+	handle.updateObstacle(pos.x, pos.y, "HumanTexture.txt");
+}
+vector<Point> CPeople::getPoint()
+{
+	ifstream op;
+	op.open("HumanTexture.txt");
+	vector<string> line;
+	string tmp;
+	while (getline(op, tmp))
+		line.push_back(tmp);
+	op.close();
+	vector<Point> x;
+	for (int i = 0; i < line.size(); i++)
+	{
+		for (int j = 0; j < line[i].length(); j++)
+		{
+			if (line[i][j] != ' ')
+			{
+				Point tmp(j, i);
+				x.push_back(tmp);
+			}
+		}
+	}
+	return x;
+}
+void CPeople::erasePeople(ConsoleHandle& handle)
+{
+	handle.eraseGraphic(pos.x, pos.y, 3, length);
+}
+void CPeople::drawDeathEffect(ConsoleHandle& handle) {
+	string filePrefixName = "HumanTextureDeath-0";
+	for (int i = 1; i <= 2; i++) {
+		string fileName = filePrefixName + char(i + 48) + ".txt";
+		Sleep(500);
+		handle.drawGraphic(pos.x, pos.y, fileName);
+	}
+	Sleep(1000);
+	handle.eraseGraphic(pos.x, pos.y, 5, 9);
+}

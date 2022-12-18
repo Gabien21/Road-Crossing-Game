@@ -1,0 +1,9 @@
+|===================================================|
+| INPUT NAME:                                       |
+|***************************************************|
+|!NOTE! File name can only have 10 character and    |
+|               all latin lowercase                 |
+|       Press "backspace" to erase a character      |
+|       Press "enter to save the file"              |
+|       Press "esc" to exit this menu               |
+*===================================================*

@@ -1,0 +1,4 @@
+toan 10
+tien 5
+thao 2
+phong 5

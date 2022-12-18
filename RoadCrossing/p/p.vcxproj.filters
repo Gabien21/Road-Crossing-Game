@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="About.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="BirdTexture.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="CarTexture.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="CrossingRoad.vcxproj.filters.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="DinausorTexture.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="EndGame.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="FailGame-1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="FailGame-2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="FailGame-3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="FailGame-4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="GameMap.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="GameMap2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="GameTitle0.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="HumanTexture.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="HumanTextureDeath-01.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="HumanTextureDeath-02.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Light-1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Light-2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="LoadGame.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="LoadGameMenu.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="LoadGameMenu-2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Menu-1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Menu-2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Menu-3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Menu-4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Menu-5.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="NameCreated.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="NameNotExit.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="NewGameData.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="NotAlive.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="PassWord.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="PassWordError.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="PauseMenu-1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="PauseMenu-2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="PauseMenu-3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="PauseMenu-4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SaveData.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SaveGamePanel.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SetBackGround.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SetSound.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Setting-1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Setting-2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="TruckTexture.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConsoleHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBird.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CDinausor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPeople.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTrafficLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTruck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CVehicle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tmp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleHandle.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimal.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CBird.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CCar.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDinausor.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPeople.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CTrafficLight.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CTruck.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CVehicle.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CGame.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tmp.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
