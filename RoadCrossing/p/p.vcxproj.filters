@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="About.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="BirdTexture.txt">
       <Filter>Resource Files</Filter>
     </Text>
@@ -142,6 +139,12 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="TruckTexture.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Loading.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="About.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

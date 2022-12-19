@@ -148,6 +148,7 @@
     <Text Include="LoadGame.txt" />
     <Text Include="LoadGameMenu-2.txt" />
     <Text Include="LoadGameMenu.txt" />
+    <Text Include="Loading.txt" />
     <Text Include="Menu-1.txt" />
     <Text Include="Menu-2.txt" />
     <Text Include="Menu-3.txt" />

@@ -1,11 +1,19 @@
 *===================================================*
-|        THIS GAME WAS CREATE BY GROUP 11           |
+|        THIS GAME WAS CREATED BY GROUP 11          |
 |***************************************************|
 |                                                   | 
-|                       THAO                        |
-|                       TIEN                        |
-|                       PHONG                       |
-|                       TOAN                        |
+| How to play:                                      |
+| Use arrow keys to move the person and avoid to    | 
+| impact the object in the game                     |
+| If you cross all the road, you will win and the   | 
+| game will move to next stage.                     |
+| The higher the stage is, the more difficult for   |
+| the player.                                       |
+| The obstacle will appear more and the speed is    |
+| faster.                                           |
+| You have 3 lives and if you impact the object     |
+| you will lose 1 live                              |
+| When you lose 3 lives, your game will end.        |
 |                                                   |
 *===================================================* 
         PRESS "B" TO GO BACK TO THE MAIN MENU

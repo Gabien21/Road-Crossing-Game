@@ -46,6 +46,8 @@ public:
     void updateString(int mX, int mY, string s, int attribute = at);
     void draw();
     void clear();
+    void drawLoading();
+    void eraseLoading();
     void drawTitle();
     void eraseTitle();
     void drawMenu(string menuFileName);

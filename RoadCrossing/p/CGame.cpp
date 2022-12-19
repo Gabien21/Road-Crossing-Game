@@ -286,6 +286,8 @@ void CGame::gameMenu(ConsoleHandle& handle) {
         thread t1(playMusic);
         t1.join();
     }
+    handle.drawLoading();
+    handle.clear();
     string fileNamePrefix = "Menu-";
     string fileNameSuffix = ".txt";
     string fileName = "Menu-1.txt";
@@ -442,6 +444,7 @@ void CGame::drawMap(ConsoleHandle& handle, string dataFile) {
             people->drawDeathEffect(handle);
             t1.join();
             drawAllMovingObject(handle);
+            
             if (live == 0)
             {
                 thread tmp(playEndGameSound);
@@ -508,6 +511,7 @@ int CGame::failGame(ConsoleHandle& handle) {
                 return 1;
             }
             if (line == 2) {    //save game
+                people->setPos(94, 43);
                 handle.eraseFailGameMenu();
                 saveGamePanel(handle);
                 handle.eraseSaveGamePanel();

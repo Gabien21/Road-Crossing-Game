@@ -148,6 +148,26 @@ void ConsoleHandle::clear()
         }
     }
 }
+void ConsoleHandle::drawLoading()
+{
+    updateObstacle(getCenterX(152), 0, "GameTitle0.txt");
+    string s = "";
+    for (int i = 1; i <= 100; i++)
+    {
+        s += " ";
+        updateObstacle(getCenterX(102), 35, "Loading.txt");
+        updateString(getCenterX(102)+1, 36, s, 160);
+        if(i>=50)
+            drawString(getCenterX(102) + 51, 36, to_string(i) + "%",160);
+        else
+            drawString(getCenterX(102) + 51, 36, to_string(i) + "%");
+        Sleep(50);
+    }
+}
+void ConsoleHandle::eraseLoading()
+{
+    eraseGraphic(getCenterX(152), 0, 14, 170);
+}
 void ConsoleHandle::drawTitle() {
     updateObstacle(getCenterX(152), 0, "GameTitle0.txt");
 }
@@ -292,7 +312,7 @@ void ConsoleHandle::earseNameNotExit()
 void ConsoleHandle::drawAbout() {
     clear();
     drawTitle();
-    drawGraphic(getCenterX(53), getCenterY(11, 14), "About.txt");
+    drawGraphic(getCenterX(53), getCenterY(19, 14), "About.txt");
     while (1) {
         char c = _getch();
         if (c == 'b' || c == 'B')
