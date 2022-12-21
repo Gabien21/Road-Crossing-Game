@@ -32,8 +32,9 @@ void StopPlaySound()
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
-CGame::CGame()
+CGame::CGame(ConsoleHandle& handle)
 {
+    this->handle = handle;
     this->people = new CPeople(94, 43);
     difficulty = 125;
     stage = 1;
@@ -82,7 +83,7 @@ void CGame::addTrafficLight(TrafficLight& newLight)
 {
     lightList.push_back(newLight);
 }
-void CGame::createCarList(ConsoleHandle& handle)
+void CGame::createCarList()
 {
     if (carList.size() <= 0)
     {
@@ -107,7 +108,7 @@ void CGame::createCarList(ConsoleHandle& handle)
         }
     }
 }
-void CGame::createTruckList(ConsoleHandle& handle)
+void CGame::createTruckList()
 {
     if (truckList.size() <= 0)
     {
@@ -132,7 +133,7 @@ void CGame::createTruckList(ConsoleHandle& handle)
         }
     }
 }
-void CGame::createBirdList(ConsoleHandle& handle)
+void CGame::createBirdList()
 {
     if (birdList.size() <= 0)
     {
@@ -157,7 +158,7 @@ void CGame::createBirdList(ConsoleHandle& handle)
         }
     }
 }
-void CGame::createDinausorList(ConsoleHandle& handle)
+void CGame::createDinausorList()
 {
     if (dinausorList.size() <= 0)
     {
@@ -188,24 +189,24 @@ void CGame::createTrafficLightList()
     lightList[0].setPos(164, 7);
     lightList[1].setPos(164, 25);
 }
-void CGame::moveAllObject(ConsoleHandle& handle)
+void CGame::moveAllObject()
 {
     for (int i = 0; i < carList.size(); i++)
         carList[i].Move(lightList[0]);
-    createCarList(handle);
+    createCarList();
     for (int i = 0; i < truckList.size(); i++)
         truckList[i].Move(lightList[1]);
-    createTruckList(handle);
+    createTruckList();
     for (int i = 0; i < birdList.size(); i++)
         birdList[i].Move();
-    createBirdList(handle);
+    createBirdList();
     for (int i = 0; i < dinausorList.size(); i++)
         dinausorList[i].Move();
-    createDinausorList(handle);
+    createDinausorList();
     for (int i = 0; i < lightList.size(); i++)
         lightList[i].changeType(handle);
 }
-void CGame::drawAllMovingObject(ConsoleHandle& handle)
+void CGame::drawAllMovingObject()
 {
     for (int i = 0; i < carList.size(); i++) {
         carList[i].drawCar(handle);
@@ -278,15 +279,15 @@ vector<TrafficLight> CGame::getTrafficLightList()
 {
     return lightList;
 }
-void CGame::gameMenu(ConsoleHandle& handle) {
-    string fileData = "NewGameData.dat";
+void CGame::gameMenu() {
+    string fileData = "User/NewGameData.dat";
     int line = 1;
     if (sound == 1)
     {
         thread t1(playMusic);
         t1.join();
     }
-    handle.drawLoading();
+    //handle.drawLoading();
     handle.clear();
     string fileNamePrefix = "Menu-";
     string fileNameSuffix = ".txt";
@@ -312,8 +313,8 @@ void CGame::gameMenu(ConsoleHandle& handle) {
             break;
         case VK_RETURN:
             if (line == 1) { //new game
-                fileData = "NULL.dat";
-                drawMap(handle, fileData);
+                fileData = "User/NULL.dat";
+                drawMap(fileData);
                 handle.clear();
                 handle.drawTitle();
                 handle.drawMenu(fileName);
@@ -322,10 +323,10 @@ void CGame::gameMenu(ConsoleHandle& handle) {
             else if (line == 2) //load game
             {
                 handle.clear();
-                fileData = loadGame(handle);
+                fileData = loadGame();
                 handle.drawMenu(fileName);
-                if (fileData.compare("NULL.dat") != 0)
-                    drawMap(handle, fileData);
+                if (fileData.compare("User/NULL.dat") != 0)
+                    drawMap(fileData);
                 handle.clear();
                 handle.drawTitle();
                 handle.drawMenu(fileName);
@@ -334,7 +335,7 @@ void CGame::gameMenu(ConsoleHandle& handle) {
             }
             else if (line == 3) //setting
             {
-                settingMenu(handle);
+                settingMenu();
                 handle.drawTitle();
                 handle.drawMenu(fileName);
             }
@@ -355,17 +356,17 @@ void CGame::gameMenu(ConsoleHandle& handle) {
         }
     }
 }
-void CGame::drawMap(ConsoleHandle& handle, string dataFile) {
+void CGame::drawMap(string dataFile) {
     handle.clear();
     string name = "";
     for (int i = 0; i < dataFile.length() - 4; i++)
         name += dataFile[i];
-    if (dataFile.compare("NULL.dat") != 0)
+    if (dataFile.compare("User/NULL.dat") != 0)
     {
         readData(dataFile);
         while (1)
         {
-            string pass = inputPassWord(handle);
+            string pass = inputPassWord();
             if (pass == "")
                 return;
             if (passWord.compare(pass) != 0)
@@ -390,10 +391,10 @@ void CGame::drawMap(ConsoleHandle& handle, string dataFile) {
     }
     else
     {
-        createCarList(handle);
-        createBirdList(handle);
-        createTruckList(handle);
-        createDinausorList(handle);
+        createCarList();
+        createBirdList();
+        createTruckList();
+        createDinausorList();
         createTrafficLightList();
     }
     int ch;
@@ -421,7 +422,7 @@ void CGame::drawMap(ConsoleHandle& handle, string dataFile) {
                 people->draw(handle);
             }
             else if (ch == 'p' || ch == 'P') {
-                int option = pauseGamePanel(handle);
+                int option = pauseGamePanel();
                 if (option == 1 || option == 3) // resume || setting
                     continue;
                 else if (option == 2 || option == 4)   // save game || exit
@@ -434,8 +435,8 @@ void CGame::drawMap(ConsoleHandle& handle, string dataFile) {
         handle.drawHeart(live);
         handle.drawStage(stage);
         handle.drawString(18, 21, to_string(6 - difficulty / 25));
-        drawAllMovingObject(handle);
-        moveAllObject(handle);
+        drawAllMovingObject();
+        moveAllObject();
         Sleep(difficulty);
         if (people->isImpact(carList) || people->isImpact(truckList) || people->isImpact(birdList) || people->isImpact(dinausorList))
         {
@@ -443,18 +444,18 @@ void CGame::drawMap(ConsoleHandle& handle, string dataFile) {
             thread t1(playDeathSound);
             people->drawDeathEffect(handle);
             t1.join();
-            drawAllMovingObject(handle);
+            drawAllMovingObject();
             
             if (live == 0)
             {
                 thread tmp(playEndGameSound);
                 tmp.join();
-                endGame(handle, name);
+                endGame();
                 return;
             }
             people->draw(handle);
             handle.draw();
-            int option = failGame(handle);
+            int option = failGame();
             if (option == 1 || option == 3)
             {
                 handle.eraseHeart();
@@ -479,7 +480,7 @@ void CGame::drawMap(ConsoleHandle& handle, string dataFile) {
     }
 }
 
-int CGame::failGame(ConsoleHandle& handle) {
+int CGame::failGame() {
     int line = 1;
     string fileNamePrefix = "FailGame-";
     string fileNameSuffix = ".txt";
@@ -513,18 +514,18 @@ int CGame::failGame(ConsoleHandle& handle) {
             if (line == 2) {    //save game
                 people->setPos(94, 43);
                 handle.eraseFailGameMenu();
-                saveGamePanel(handle);
+                saveGamePanel();
                 handle.eraseSaveGamePanel();
                 handle.DrawGameMap();
-                drawAllMovingObject(handle);
+                drawAllMovingObject();
                 handle.drawFailGameMenu(fileName);
             }
             if (line == 3)  //setting
             {
-                settingMenu(handle);
+                settingMenu();
                 handle.eraseSettingMenu();
                 handle.DrawGameMap();
-                drawAllMovingObject(handle);
+                drawAllMovingObject();
                 handle.drawFailGameMenu(fileName);
             }
             if (line == 4) {    //exit
@@ -538,7 +539,7 @@ int CGame::failGame(ConsoleHandle& handle) {
     }
 }
 
-string CGame::loadGame(ConsoleHandle& handle)
+string CGame::loadGame()
 {
     vector<si> playerList = handle.drawLoadGameMenu("LoadGameMenu.txt");
     string fileData = ".dat";
@@ -552,7 +553,7 @@ string CGame::loadGame(ConsoleHandle& handle)
         else if (c == 27)   //exit
         {
             handle.eraseLoadGameMenu(playerList);
-            return "NULL" + fileData;
+            return "sound/NULL" + fileData;
         }
         else if (c == 8)    //backspace
         {
@@ -574,13 +575,13 @@ string CGame::loadGame(ConsoleHandle& handle)
             saveName.clear();
             handle.drawLoadGameMenu("LoadGameMenu.txt");
         }
-        handle.writeNameToConsole(ConsoleHandle::getCenterX(53) + 14, ConsoleHandle::getCenterY(14 + playerList.size(), 14) + 6 + playerList.size(), saveName);
+        handle.writeNameToConsole(ConsoleHandle::getCenterX(53) + 14, ConsoleHandle::getCenterY(14 + 5, 14) + 6 +5, saveName);
     }
     handle.eraseLoadGameMenu(playerList);
-    return "NULL" + fileData;
+    return "sound/NULL" + fileData;
 }
 
-void CGame::SetSound(ConsoleHandle& handle)
+void CGame::SetSound()
 {
     int line = 1;
     string fileName = "SetSound.txt";
@@ -635,7 +636,7 @@ void CGame::SetSound(ConsoleHandle& handle)
         }
     }
 }
-void CGame::SetBackGround(ConsoleHandle& handle)
+void CGame::SetBackGround()
 {
     int line = 1;
     string fileName = "SetSound.txt";
@@ -682,7 +683,7 @@ void CGame::SetBackGround(ConsoleHandle& handle)
         }
     }
 }
-void CGame::settingMenu(ConsoleHandle& handle)
+void CGame::settingMenu()
 {
     int line = 1;
     string fileNamePrefix = "Setting-";
@@ -716,11 +717,11 @@ void CGame::settingMenu(ConsoleHandle& handle)
             else if (c == 13)
             {
                 if (line == 1) {
-                    SetSound(handle);
+                    SetSound();
                     handle.drawSettingMenu(fileName);
                 }
                 else if (line == 2) {
-                    SetBackGround(handle);
+                    SetBackGround();
                     handle.drawSettingMenu(fileName);
                 }
             }
@@ -729,7 +730,7 @@ void CGame::settingMenu(ConsoleHandle& handle)
 }
 
 
-int CGame::pauseGamePanel(ConsoleHandle& handle) {
+int CGame::pauseGamePanel() {
     int line = 1;
     string fileNamePrefix = "PauseMenu-";
     string fileNameSuffix = ".txt";
@@ -759,21 +760,21 @@ int CGame::pauseGamePanel(ConsoleHandle& handle) {
                 return 1;
             }
             if (line == 2) {    //save game
-                saveGamePanel(handle);
+                saveGamePanel();
                 handle.eraseSaveGamePanel();
                 if (userName != "" && passWord != "")
                     return 2;
                 handle.clear();
                 handle.DrawGameMap();
-                drawAllMovingObject(handle);
+                drawAllMovingObject();
                 handle.drawPauseMenu(fileName);
             }
             if (line == 3)  //setting
             {
-                settingMenu(handle);
+                settingMenu();
                 handle.eraseSettingMenu();
                 handle.DrawGameMap();
-                drawAllMovingObject(handle);
+                drawAllMovingObject();
                 handle.drawPauseMenu(fileName);
             }
             if (line == 4) {    //exit
@@ -786,7 +787,7 @@ int CGame::pauseGamePanel(ConsoleHandle& handle) {
         }
     }
 }
-void CGame::endGame(ConsoleHandle& handle, string name)
+void CGame::endGame()
 {
     int option = handle.drawEndGame();
     if (option == 27)
@@ -794,8 +795,8 @@ void CGame::endGame(ConsoleHandle& handle, string name)
     if (option == VK_RETURN)
     {
         handle.DrawGameMap();
-        drawAllMovingObject(handle);
-        saveGamePanel(handle);
+        drawAllMovingObject();
+        saveGamePanel();
         handle.eraseSaveGamePanel();
     }
 }
@@ -889,7 +890,7 @@ void CGame::readData(string dataFile) {
     fi.close();
 }
 
-void CGame::saveGame(ConsoleHandle& handle, int k) {
+void CGame::saveGame(int k) {
     string fileName = userName;
     ofstream fo;
     if (k != 1)
@@ -923,6 +924,7 @@ void CGame::saveGame(ConsoleHandle& handle, int k) {
         }
     }
     fileName += ".dat";
+    fileName = "User/" + fileName;
     fo.open(fileName, ios::out | ios::binary);
 
     //car
@@ -995,11 +997,11 @@ void CGame::saveGame(ConsoleHandle& handle, int k) {
 
     fo.close();
 }
-void CGame::saveGamePanel(ConsoleHandle& handle) {
+void CGame::saveGamePanel() {
     if (userName != "")
     {
         int k = 1;
-        saveGame(handle, 1);
+        saveGame(1);
         handle.drawSaveDataPanel();
         return;
     }
@@ -1040,16 +1042,16 @@ void CGame::saveGamePanel(ConsoleHandle& handle) {
                 {
                     handle.clear();
                     handle.DrawGameMap();
-                    drawAllMovingObject(handle);
+                    drawAllMovingObject();
                     handle.drawSavePanel("SaveGamePanel.txt");
                     continue;
                 }
                 userName = s;
-                string pass = inputPassWord(handle);
+                string pass = inputPassWord();
                 if (pass == "")
                     return;
                 passWord = pass;
-                saveGame(handle);
+                saveGame();
                 handle.drawSaveDataPanel();
                 return;
             }
@@ -1057,7 +1059,7 @@ void CGame::saveGamePanel(ConsoleHandle& handle) {
         handle.writeNameToConsole(ConsoleHandle::getCenterX(52, 33, 162) + 15, ConsoleHandle::getCenterY(20, 2, 47) + 2, saveName);
     }
 }
-string CGame::inputPassWord(ConsoleHandle& handle)
+string CGame::inputPassWord()
 {
     vector <char> pass;
     string fileName = "PassWord.txt";

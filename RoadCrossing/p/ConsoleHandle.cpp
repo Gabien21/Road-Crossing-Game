@@ -202,17 +202,18 @@ vector<si> ConsoleHandle::drawLoadGameMenu(string loadGameMenu) {
     }
     playerList.pop_back();
     fin.close();
-    drawGraphic(getCenterX(53), getCenterY(14 + playerList.size(), 14), loadGameMenu);
+    drawGraphic(getCenterX(53), getCenterY(14 + 5, 14), loadGameMenu);
+    int k = playerList.size() - 5;
     int i = 0;
-    for (; i < playerList.size(); i++)
+    for (; i < 5; i++)
     {
-        drawString(62, getCenterY(14 + playerList.size(), 14) + 5 + i, "|");
-        drawString(75 - (playerList[i].first).length() / 2, getCenterY(14 + playerList.size(), 14) + 5 + i, playerList[i].first);
-        drawString(87, getCenterY(14 + playerList.size(), 14) + 5 + i, "|");
-        drawString(102, getCenterY(14 + playerList.size(), 14) + 5 + i, to_string(playerList[i].second));
-        drawString(114, getCenterY(14 + playerList.size(), 14) + 5 + i, "|");
+        drawString(62, getCenterY(14 + 5, 14) + 5 + i, "|");
+        drawString(75 - (playerList[k+i].first).length() / 2, getCenterY(14 + 5, 14) + 5 + i, playerList[k+i].first);
+        drawString(87, getCenterY(14 + 5, 14) + 5 + i, "|");
+        drawString(102, getCenterY(14 + 5, 14) + 5 + i, to_string(playerList[k+i].second));
+        drawString(114, getCenterY(14 + 5, 14) + 5 + i, "|");
     }
-    drawGraphic(getCenterX(53), getCenterY(14 + playerList.size(), 14) + 5 + i, "LoadGameMenu-2.txt");
+    drawGraphic(getCenterX(53), getCenterY(14 + 5, 14) + 5 + i, "LoadGameMenu-2.txt");
     return playerList;
 }
 void ConsoleHandle::eraseLoadGameMenu(vector<si> list)

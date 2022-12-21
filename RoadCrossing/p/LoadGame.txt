@@ -3,3 +3,7 @@ tien 5
 thao 2
 phong 5
 example 7
+huhi 1
+hahaha 1
+huhiha 1
+haa 3

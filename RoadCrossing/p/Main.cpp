@@ -5,7 +5,7 @@ CGame* cg;
 
 int main()
 {
-	CGame* cg = new CGame();
-	cg->gameMenu(handle);
+	CGame* cg = new CGame(handle);
+	cg->gameMenu();
 	return 0;
 }
